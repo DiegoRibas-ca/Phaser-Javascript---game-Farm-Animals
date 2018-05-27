@@ -18,6 +18,28 @@ var GameState = {
         
         //set backgroung
         this.background = this.game.add.sprite(0, 0, 'background');
+
+        //group of animals
+        var animalData = [
+            {key: 'chicken', text: 'CHICKEN'},
+            {key: 'horse', text: 'HORSE'},
+            {key: 'pig', text: 'PIG'},
+            {key: 'sheep', text: 'SHEEP'},
+        ]
+        this.animals = this.game.add.group(); //phaser method
+        var self = this;
+        animalData.forEach(function(element){
+            animal = self.animals.create(-1000, self.game.world.centerY, element.key);
+            animal.customParams = {text: element.text};
+            animal.anchor.setTo(0.5);
+            animal.inputEnabled = true;
+            animal.input.pixelPerfectClick = true;
+            animal.events.onInputDown.add(self.animateAnimal, self);
+        });
+
+        this.currentAnimal = this.animals.next();
+        this.currentAnimal.position.setTo(this.game.world.centerX, this.game.world.centerY);
+
         
         //right arrow
         this.rightArrow = this.game.add.sprite(580, this.game.world.centerY, 'arrow');
@@ -36,39 +58,39 @@ var GameState = {
         this.leftArrow.input.pixelPerfectClick = true;
         this.leftArrow.events.onInputDown.add(this.switchAnimal, this);
         
-        //chicken
-        this.chicken = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'chicken');
-        this.chicken.anchor.setTo(0.5, 0.5);
-        this.chicken.scale.setTo(1.2);
-        this.chicken.inputEnabled = true;
-        this.chicken.input.pixelPerfectClick = true;
-        this.chicken.events.onInputDown.add(this.animateAnimal, this);
+        // //chicken
+        // this.chicken = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'chicken');
+        // this.chicken.anchor.setTo(0.5, 0.5);
+        // this.chicken.scale.setTo(1.2);
+        // this.chicken.inputEnabled = true;
+        // this.chicken.input.pixelPerfectClick = true;
+        // this.chicken.events.onInputDown.add(this.animateAnimal, this);
 
         
-        //horse
-        this.horse = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'horse');
-        this.horse.anchor.setTo(0.5);
-        this.horse.scale.setTo(0.9);
-        this.horse.inputEnabled = true;
-        this.horse.input.pixelPerfectClick = true;
-        this.horse.events.onInputDown.add(this.animateAnimal, this);
+        // //horse
+        // this.horse = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'horse');
+        // this.horse.anchor.setTo(0.5);
+        // this.horse.scale.setTo(0.9);
+        // this.horse.inputEnabled = true;
+        // this.horse.input.pixelPerfectClick = true;
+        // this.horse.events.onInputDown.add(this.animateAnimal, this);
        
-        //pig
-        this.pig = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'pig');
-        this.pig.anchor.setTo(0.5);
-        this.pig.scale.setTo(-1, 1);
-        this.pig.inputEnabled = true;
-        this.pig.input.pixelPerfectClick = true;
-        this.pig.events.onInputDown.add(this.animateAnimal, this);
+        // //pig
+        // this.pig = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'pig');
+        // this.pig.anchor.setTo(0.5);
+        // this.pig.scale.setTo(-1, 1);
+        // this.pig.inputEnabled = true;
+        // this.pig.input.pixelPerfectClick = true;
+        // this.pig.events.onInputDown.add(this.animateAnimal, this);
         
-        //sheep
-        this.sheep = this.game.add.sprite(100, 250, 'sheep');
-        this.sheep.anchor.setTo(0.5);
-        this.sheep.scale.setTo(0.5);
-        // this.sheep.angle = 30; //just to know how to rotate
-        this.sheep.inputEnabled = true;
-        this.sheep.input.pixelPerfectClick = true;
-        this.sheep.events.onInputDown.add(this.animateAnimal, this);
+        // //sheep
+        // this.sheep = this.game.add.sprite(100, 250, 'sheep');
+        // this.sheep.anchor.setTo(0.5);
+        // this.sheep.scale.setTo(0.5);
+        // // this.sheep.angle = 30; //just to know how to rotate
+        // this.sheep.inputEnabled = true;
+        // this.sheep.input.pixelPerfectClick = true;
+        // this.sheep.events.onInputDown.add(this.animateAnimal, this);
     },
     
     update: function() {

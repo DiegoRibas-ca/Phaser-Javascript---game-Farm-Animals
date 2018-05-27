@@ -99,18 +99,35 @@ var GameState = {
     },
 
     switchAnimal: function(sprite, event) {
+        if(this.isMoving) {
+            return false;
+        }
+
+        this.isMoving = true;
+        
         var newAnimal, endX;
 
         if(sprite.customParams.direction > 0) {
             newAnimal = this.animals.next();
+            newAnimal.x = -newAnimal.width/2;
             endX = 640 + this.currentAnimal.width/2;
         } else {
             newAnimal = this.animals.previous();
+            newAnimal.x = 640 + newAnimal.width / 2;
             endX = - this.currentAnimal.width/2;
         }
 
-        this.currentAnimal.x = endX;
-        newAnimal.x = this.game.world.centerX;
+        var newAnimalMoviment = this.game.add.tween(newAnimal);
+        newAnimalMoviment.to({x: this.game.world.centerX}, 1000);
+        newAnimalMoviment.onComplete.add(function(){
+            this.isMoving = false;
+        }, this);
+        newAnimalMoviment.start();
+
+        currentAnimalMoviment = this.game.add.tween(this.currentAnimal);
+        currentAnimalMoviment.to({ x: endX}, 1000);
+        currentAnimalMoviment.start();
+
         this.currentAnimal = newAnimal;
 
     },
